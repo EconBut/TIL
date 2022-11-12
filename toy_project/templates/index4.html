@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+            crossorigin="anonymous"></script>
+
+    <link href="https://fonts.googleapis.com/css2?family=Gowun+Dodum&display=swap" rel="stylesheet">
+
+    <title>재료 리스트</title>
+
+        <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@200;300;400;500;600;700;900&display=swap"
+          rel="stylesheet">
+
+    <style>
+        * {
+            font-family: 'Gowun Dodum', sans-serif;
+        }
+
+        .mypic {
+            width: 100%;
+            height: 300px;
+
+            background-image: linear-gradient(0deg, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('http://economychosun.com/query/upload/335/20200217241138_kmrfbjwz.jpg');
+            background-position: center 40%;
+            background-size: cover;
+
+            color: white;
+
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .mypic > h1 {
+            font-size: 35px;
+        }
+
+        .mybox {
+            width: 95%;
+            max-width: 700px;
+            padding: 20px;
+            box-shadow: 0px 0px 10px 0px lightblue;
+            margin: 20px auto;
+        }
+
+        .mybucket {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .mybucket > input {
+            width: 70%;
+        }
+
+        .mybox > li {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+
+            margin-bottom: 10px;
+            min-height: 48px;
+        }
+
+        .mybox > li > h2 {
+            width: 100px;
+            max-width: 75%;
+            font-size: 20px;
+            font-weight: 500;
+            margin-right: auto;
+            margin-bottom: 0px;
+        }
+
+        .mybox > li > h2.done {
+            text-decoration: line-through
+        }
+
+        .mybox > li > button {
+            width: 150px;
+            margin-left: 20px;
+        }
+        .li{
+            display: flex;
+            flex-direction: row;
+            text-align: center;
+
+        }
+        .li>h2{
+            width: 100px;
+            margin: auto;
+        }
+
+    </style>
+     <script>
+        $(document).ready(function () {
+            show_bucket();
+        });
+
+        function show_bucket() {
+            $('#prep_list').empty()
+            $.ajax({
+                type: "GET",
+                url: "/page4/cook",
+                data: {},
+                success: function (response) {
+                    let rows = response['cooks']
+                    let cookName = $('#cookName').val()
+                    let target = rows.filter(val => val.name == cookName);
+                    for (let i = 0; i < target.length; i++) {
+                        let prep1 = target[i]['prep1']
+                        let prep2 = target[i]['prep2']
+                        let prep3 = target[i]['prep3']
+                        let prep4 = target[i]['prep4']
+                        console.log(target)
+
+                        let temp_html = `
+                            <li>=====================${i+1}번째 요리법 재료=======================</li>
+
+                            <li class="li">
+                                <h2 >재료1 : </h2>
+                                <h2 >${prep1}</h2>
+                            </li>
+                            <li class="li">
+                            <h2 >재료2 : </h2>
+                                <h2>${prep2}</h2>
+
+                            </li>
+                            <li class="li">
+                            <h2 >재료3 : </h2>
+                                <h2>${prep3}</h2>
+
+                            </li>
+                            <li class="li">
+                            <h2 >재료4 : </h2>
+                                <h2>${prep4}</h2>
+
+                            </li>
+                            <li>========================================================</li>
+`
+
+
+                        $('#prep_list').append(temp_html)
+                    }
+                }
+
+            });
+        }
+
+
+    </script>
+</head>
+<body>
+<div class="mypic">
+    <h1>네 재료 리스트입니다</h1>
+</div>
+
+<div class="mybox">
+    <li>
+        <h2 class="">요리명</h2>
+        <input type="text" class="form-control" id="cookName">
+        <button onclick="show_bucket()" type="button" class="btn btn-outline-success">불러오기</button>
+
+    </li>
+    <div id="prep_list" class="prep_list">
+
+    </div>
+
+
+</div>
+</body>
+</html>

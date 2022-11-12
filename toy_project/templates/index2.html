@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+            crossorigin="anonymous"></script>
+
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@200;300;400;500;600;700;900&display=swap"
+          rel="stylesheet">
+
+    <title>요리 추천 해드립니다</title>
+    <style>
+        * {
+            font-family: 'Noto Serif KR', sans-serif;
+        }
+
+        .mypic {
+            width: 100%;
+            height: 300px;
+
+            background-image: linear-gradient(0deg, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://www.sisajournal.com/news/photo/202107/219955_128268_2839.jpg');
+            background-position: center 20%;
+
+            background-size: cover;
+            background-repeat: no-repeat;
+
+            color: white;
+
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .mypic > h1 {
+            font-size: 35px;
+        }
+
+        .mybox {
+            width: 95%;
+            max-width: 350px;
+            padding: 30px;
+            box-shadow: 0px 0px 5px 0px black;
+            margin: 20px auto;
+
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .mybox > h1 {
+            width: 100%;
+            margin: auto;
+
+        }
+
+        .myCook {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+
+        .mybox > li {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+
+            margin-bottom: 10px;
+            min-height: 48px;
+        }
+
+        .mybox > li > h2 {
+            max-width: 75%;
+            font-size: 20px;
+            font-weight: 500;
+            margin-right: auto;
+            margin-bottom: 0px;
+        }
+
+        .mybox > li > h2.done {
+            text-decoration: line-through
+        }
+
+        .row {
+            display: flex;
+            padding-bottom: 5px;
+        }
+
+        .col-sm-2 {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+            padding-right: 50px;
+        }
+
+        .col-form-label {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .myCook {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+
+            margin-top: 10px;
+        }
+
+        .myCook > button {
+            margin-right: 10px;
+        }
+    </style>
+    <script>
+        function save_cook(){
+            let cookName = $('#cookName').val()
+            let imageUrl = $('#imageUrl').val()
+            let prep1 = $('#prep1').val()
+            let prep2 = $('#prep2').val()
+            let prep3 = $('#prep3').val()
+            let prep4 = $('#prep4').val()
+
+
+            $.ajax({
+
+                type: "POST",
+                url: "/page3/cook",
+                data: {
+                    cookName_give: cookName,
+                    imageUrl_give : imageUrl,
+                    prep1_give : prep1,
+                    prep2_give : prep2,
+                    prep3_give : prep3,
+                    prep4_give : prep4,
+
+
+
+                },
+                success: function (response) {
+                    alert(response["msg"])
+                    window.location.reload()
+                }
+            });
+
+        }
+    </script>
+</head>
+<body>
+<div class="mypic">
+    <h1>네 요리 추천 고맙습니다</h1>
+</div>
+<div class="mybox">
+
+    <h2></h2>
+    <div class="col-form-label">
+
+        <div class="form-floating mb-3">
+            <input type="text" class="form-control" id="cookName" placeholder="url">
+            <label for="floatingInput">요리명</label>
+        </div>
+
+        <div class="form-floating mb-3">
+            <input type="text" class="form-control" id="imageUrl" placeholder="url">
+            <label for="floatingInput">이미지 주소 링크 복붙하기</label>
+        </div>
+
+        <div class="form-floating mb-3">
+            <input type="text" class="form-control" id="prep1" placeholder="url">
+            <label for="floatingInput">재료 No.1</label>
+        </div>
+
+        <div class="form-floating mb-3">
+            <input type="text" class="form-control" id="prep2" placeholder="url">
+            <label for="floatingInput">재료 No.2</label>
+        </div>
+
+        <div class="form-floating mb-3">
+            <input type="text" class="form-control" id="prep3" placeholder="url">
+            <label for="floatingInput">재료 No.3</label>
+        </div>
+
+        <div class="form-floating mb-3">
+            <input type="text" class="form-control" id="prep4" placeholder="url">
+            <label for="floatingInput">재료 No.4</label>
+        </div>
+
+    </div>
+
+
+    <div class="myCook">
+
+        <div>
+        <button onclick="save_cook()" type="button" class="btn btn-success">저장하기</button>
+        <button onclick="previous()" id="backward" class="btn btn-success">돌아가기</button>
+        </div>
+    </div>
+</div>
+<script>
+    function previous() {
+        window.history.back();
+    }
+</script>
+</body>
+</html>
